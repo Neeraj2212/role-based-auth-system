@@ -13,7 +13,7 @@ export class TaskRoutes implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get('/', authPermissionMiddleware(Permissions.READ_TASK), this.controller.getTasks);
+    this.router.get('/all', authPermissionMiddleware(Permissions.READ_TASK), this.controller.getTasks);
     this.router.put('/:id', authPermissionMiddleware(Permissions.UPDATE_TASK), this.controller.updateTask);
     this.router.delete('/:id', authPermissionMiddleware(Permissions.DELETE_TASK), this.controller.deleteTask);
     this.router.post('/', authPermissionMiddleware(Permissions.CREATE_TASK), this.controller.createTask);

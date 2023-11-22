@@ -14,6 +14,7 @@ const authPermissionMiddleware = (permission: Permissions) => async (req: Reques
       const verificationResponse: JwtPayload & DataStoredInToken = (await verify(Authorization, secretKey)) as DataStoredInToken;
       if (verificationResponse.exp < Math.floor(Date.now() / 1000)) next(new HttpException(401, 'Authentication token expired'));
       const userId = verificationResponse._id;
+
       const allowed = await IsUserAllowed(userId, permission, next);
 
       if (allowed) {
