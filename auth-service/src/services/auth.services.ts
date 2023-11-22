@@ -23,6 +23,11 @@ class AuthServices {
     return { token: sign(dataStoredInToken, secretKey, { expiresIn: '1h' }) };
   }
 
+  public async getRoles(): Promise<Role[]> {
+    const roles: Role[] = await accessModel.find();
+    return roles;
+  }
+
   public async updateUserRoles(userId: string, roles: string[]): Promise<User> {
     if (isEmpty(userId)) throw new HttpException(400, 'UserId is empty');
     if (!isValidObjectId(userId)) throw new HttpException(400, 'UserId is invalid');

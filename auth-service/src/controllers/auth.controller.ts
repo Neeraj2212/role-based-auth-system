@@ -15,6 +15,16 @@ class AuthController {
     }
   };
 
+  public getRoles = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const roles = await this.authService.getRoles();
+
+      res.status(200).json({ data: roles, message: 'roles' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public updateUserRoles = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { userId } = req.params;
