@@ -10,6 +10,7 @@ import hpp from 'hpp';
 import { connect, set } from 'mongoose';
 import morgan from 'morgan';
 import redisClient from './db';
+import { seedMongo, seedRedis } from './db/seed';
 
 class App {
   public app: express.Application;
@@ -40,7 +41,7 @@ class App {
     return this.app;
   }
 
-  private connectToDatabase() {
+  private async connectToDatabase() {
     if (this.env !== 'production') {
       set('debug', true);
     }
@@ -51,9 +52,11 @@ class App {
         process.exit(1);
       }
       console.log('Connected to DB');
+      seedMongo();
     });
 
-    redisClient.connect();
+    await redisClient.connect();
+    seedRedis();
   }
 
   private initializeMiddlewares() {

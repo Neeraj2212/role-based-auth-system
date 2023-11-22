@@ -25,6 +25,7 @@
     "mongoose": "^6.5.0",
     "morgan": "^1.10.0",
     "redis": "^4.6.11",
+    "redis-om": "^0.4.3",
     "remove": "^0.1.5",
     "winston": "^3.8.1",
     "winston-daily-rotate-file": "^4.7.1"
