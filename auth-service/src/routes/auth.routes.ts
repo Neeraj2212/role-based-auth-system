@@ -11,7 +11,9 @@ class AuthRoutes implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get('/auth/token/:id', this.authController.getUserToken);
+    this.router.get('/token/:id', this.authController.getUserToken);
+    this.router.put('/token/roles/:userId', this.authController.updateUserRoles);
+    this.router.put('/token/permissions', this.authController.updateRolePermissions);
   }
 }
 

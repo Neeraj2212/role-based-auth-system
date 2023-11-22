@@ -9,8 +9,7 @@ import helmet from 'helmet';
 import hpp from 'hpp';
 import { connect, set } from 'mongoose';
 import morgan from 'morgan';
-import redisClient from './db';
-import { seedMongo, seedRedis } from './db/seed';
+import { seedMongo } from './db/seed';
 
 class App {
   public app: express.Application;
@@ -46,17 +45,14 @@ class App {
       set('debug', true);
     }
 
-    connect(MONGO_URI, err => {
+    connect(MONGO_URI, async err => {
       if (err) {
         console.error(err);
         process.exit(1);
       }
       console.log('Connected to DB');
-      seedMongo();
+      await seedMongo();
     });
-
-    await redisClient.connect();
-    seedRedis();
   }
 
   private initializeMiddlewares() {

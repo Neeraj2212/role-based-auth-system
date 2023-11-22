@@ -1,11 +1,15 @@
-import redisClient from '@/db';
-import { Repository, Schema } from 'redis-om';
+import mongoose, { Schema, Document } from 'mongoose';
 
-const accessSchema = new Schema('access', {
-  role: { type: 'string' },
-  permissions: { type: 'string[]' },
+interface Access extends Document {
+  role: string;
+  permissions: string[];
+}
+
+const AccessSchema: Schema = new Schema({
+  role: { type: String, required: true },
+  permissions: { type: [String], required: true },
 });
 
-const accessModel = new Repository(accessSchema, redisClient);
+const accessModel = mongoose.model<Access & Document>('Access', AccessSchema);
 
 export default accessModel;

@@ -18,6 +18,7 @@ class UserService {
     if (!isValidObjectId(userId)) throw new HttpException(400, 'UserId is invalid');
 
     const findUser: User = await this.users.findOne({ _id: userId });
+    findUser.hasPermission('update:profile');
     if (!findUser) throw new HttpException(404, "User doesn't exist");
 
     return findUser;
