@@ -1,6 +1,7 @@
 import { model, Schema, Document } from 'mongoose';
 import { User } from '@interfaces/users.interface';
 import { Roles } from '@/config';
+import accessModel from './access.model';
 
 const userSchema: Schema = new Schema({
   name: {
@@ -26,6 +27,13 @@ userSchema.post('save', function (error: any, doc: any, next: any) {
     next(error);
   }
 });
+
+userSchema.methods.hasPermission = async function (permission: string) {
+  const roles: string[] = this.roles;
+  const allAllowedRoles = await accessModel.find({ role: { $in: roles } });
+  const allowedPermissions = allAllowedRoles.map(role => role.permissions).flat();
+  return allowedPermissions.includes(permission);
+};
 
 const userModel = model<User & Document>('User', userSchema);
 

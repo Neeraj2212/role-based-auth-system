@@ -1,3 +1,4 @@
+import { Roles } from '@/config';
 import { CreateUserDto, UpdateUserDto } from '@/dtos/user.dtos';
 import { HttpException } from '@exceptions/HttpException';
 import { User } from '@interfaces/users.interface';
@@ -31,10 +32,15 @@ class UserService {
     return createUserData;
   }
 
-  public async updateUser(userId: string, userData: UpdateUserDto): Promise<User> {
+  public async updateUser(userId: string, userData: UpdateUserDto, acitveUserId: string): Promise<User> {
     if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
     if (!isValidObjectId(userId)) throw new HttpException(400, 'UserId is invalid');
 
+    const findUser: User = await this.users.findById(userId);
+    if (!findUser) throw new HttpException(404, "User doesn't exist");
+    if (findUser.roles.length === 1 && findUser.roles.includes(Roles.USER) && findUser._id.toString() !== acitveUserId) {
+      throw new HttpException(403, "You don't have permission to update other user's profile");
+    }
     const updateUserById: User = await this.users.findByIdAndUpdate(userId, { $set: userData }, { returnOriginal: false });
     if (!updateUserById) throw new HttpException(404, "User doesn't exist");
 

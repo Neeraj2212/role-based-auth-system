@@ -1,7 +1,7 @@
 import { SECRET_KEY } from '@/config';
 import { HttpException } from '@/exceptions/HttpException';
-import { Role } from '@/interfaces/auth.interface';
-import { TokenData, User, DataStoredInToken } from '@/interfaces/users.interface';
+import { DataStoredInToken, Role, TokenData } from '@/interfaces/auth.interface';
+import { User } from '@/interfaces/users.interface';
 import userModel from '@/models/users.model';
 import accessModel from '@/models/access.model';
 import { isEmpty } from 'class-validator';

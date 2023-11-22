@@ -13,10 +13,10 @@ export enum Roles {
 export enum Permissions {
   UPDATE_PROFILE = 'update:profile',
   DELETE_PROFILE = 'delete:profile',
+  UPDATE_ROLES = 'update:roles',
+  UPDATE_PERMISSIONS = 'update:permissions',
   CREATE_TASK = 'create:task',
   READ_TASK = 'read:task',
   UPDATE_TASK = 'update:task',
   DELETE_TASK = 'delete:task',
-  UPDATE_ROLES = 'update:roles',
-  UPDATE_PERMISSIONS = 'update:permissions',
 }
