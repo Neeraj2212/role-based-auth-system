@@ -60,17 +60,6 @@ class UserController {
       next(error);
     }
   };
-
-  public getUserToken = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const userId: string = req.params.id;
-      const tokenData = await this.userService.createToken(userId);
-
-      res.status(200).json({ data: tokenData, message: 'token' });
-    } catch (error) {
-      next(error);
-    }
-  };
 }
 
 export default UserController;

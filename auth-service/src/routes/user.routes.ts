@@ -19,8 +19,6 @@ class UsersRoute implements Routes {
     this.router.get('user/:id', this.userController.getUserById);
     this.router.put('user/:id', validationMiddleware(UpdateUserDto, 'body', true), this.userController.updateUser);
     this.router.delete('user/:id', this.userController.deleteUser);
-
-    this.router.get('/auth/token/:id', this.userController.getUserToken);
   }
 }
 

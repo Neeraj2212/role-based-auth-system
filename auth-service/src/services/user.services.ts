@@ -51,18 +51,6 @@ class UserService {
 
     return deleteUserById;
   }
-
-  public async createToken(userId: string): Promise<TokenData> {
-    if (isEmpty(userId)) throw new HttpException(400, 'UserId is empty');
-    if (!isValidObjectId(userId)) throw new HttpException(400, 'UserId is invalid');
-    const findUser: User = await this.users.findOne({ _id: userId });
-    if (!findUser) throw new HttpException(404, "User doesn't exist");
-
-    const dataStoredInToken: DataStoredInToken = { _id: userId };
-    const secretKey: string = SECRET_KEY;
-
-    return { token: sign(dataStoredInToken, secretKey, { expiresIn: '1h' }) };
-  }
 }
 
 export default UserService;
