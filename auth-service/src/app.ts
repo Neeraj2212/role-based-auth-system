@@ -9,6 +9,7 @@ import helmet from 'helmet';
 import hpp from 'hpp';
 import { connect, set } from 'mongoose';
 import morgan from 'morgan';
+import redisClient from './db';
 
 class App {
   public app: express.Application;
@@ -51,6 +52,8 @@ class App {
       }
       console.log('Connected to DB');
     });
+
+    redisClient.connect();
   }
 
   private initializeMiddlewares() {

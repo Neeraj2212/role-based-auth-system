@@ -24,6 +24,7 @@ services:
     container_name: auth-service
     environment:
       - MONGO_URI=mongodb://db:27017/authDB
+      - REDIS_URI=redis://redis-service:6379
       - PORT=3000
       - SECRET_KEY=${SECRET_KEY}
     ports:
@@ -36,8 +37,10 @@ services:
       - microservice-network
     links:
       - db
+      - redis-service
     depends_on:
       - db
+      - redis-service
 
   db:
     image: mongo
@@ -49,10 +52,23 @@ services:
     networks:
       - microservice-network
 
+  redis-service:
+    image: redis/redis-stack:latest
+    container_name: redis-service
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    volumes:
+      - redis-data:/data
+    networks:
+      - microservice-network
+
 networks:
   microservice-network:
     driver: bridge
 
 volumes:
   data:
+    driver: local
+  redis-data:
     driver: local

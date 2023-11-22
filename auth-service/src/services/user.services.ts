@@ -1,10 +1,8 @@
-import { SECRET_KEY } from '@/config';
 import { CreateUserDto, UpdateUserDto } from '@/dtos/user.dtos';
 import { HttpException } from '@exceptions/HttpException';
-import { DataStoredInToken, TokenData, User } from '@interfaces/users.interface';
+import { User } from '@interfaces/users.interface';
 import userModel from '@models/users.model';
 import { isEmpty } from '@utils/util';
-import { sign } from 'jsonwebtoken';
 import { isValidObjectId } from 'mongoose';
 
 class UserService {
