@@ -1,6 +1,6 @@
 import { Permissions } from '@/config';
 import AuthController from '@/controllers/auth.controller';
-import { updatePermissionsDto } from '@/dtos/auth.dtos';
+import { updatePermissionsDto, updateRolesDto, validateAccessDto } from '@/dtos/auth.dtos';
 import { Routes } from '@/interfaces/routes.interface';
 import authMiddleware from '@/middlewares/auth.middleware';
 import { validatePermissionMiddleware } from '@/middlewares/validate.permissoin.middleware';
@@ -17,10 +17,9 @@ class AuthRoutes implements Routes {
 
   private initializeRoutes() {
     this.router.get('/token/:id', this.authController.getUserToken);
-    this.router.get('');
     this.router.put(
       '/roles/:userId',
-      // validationMiddleware(updateRolesDto, 'body'),
+      validationMiddleware(updateRolesDto, 'body'),
       authMiddleware,
       validatePermissionMiddleware(Permissions.UPDATE_ROLES),
       this.authController.updateUserRoles,
@@ -33,6 +32,8 @@ class AuthRoutes implements Routes {
       validatePermissionMiddleware(Permissions.UPDATE_PERMISSIONS),
       this.authController.updateRolePermissions,
     );
+
+    this.router.post('/validate/access', validationMiddleware(validateAccessDto, 'body'), this.authController.validateAccess);
   }
 }
 

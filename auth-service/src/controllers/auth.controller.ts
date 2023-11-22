@@ -37,6 +37,17 @@ class AuthController {
       next(error);
     }
   };
+
+  public validateAccess = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { userId, permission } = req.body;
+      const access = await this.authService.validateAccess(userId, permission);
+
+      res.status(200).json({ data: access, message: 'access validated' });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default AuthController;

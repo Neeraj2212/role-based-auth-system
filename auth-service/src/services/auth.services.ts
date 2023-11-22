@@ -45,6 +45,15 @@ class AuthServices {
 
     return findRole;
   }
+
+  public async validateAccess(userId: string, permission: string): Promise<boolean> {
+    if (isEmpty(userId)) throw new HttpException(400, 'UserId is empty');
+    if (!isValidObjectId(userId)) throw new HttpException(400, 'UserId is invalid');
+    const findUser: User = await this.users.findOne({ _id: userId });
+    if (!findUser) throw new HttpException(404, "User doesn't exist");
+
+    return findUser.hasPermission(permission);
+  }
 }
 
 export default AuthServices;
